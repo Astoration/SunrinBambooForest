@@ -33,6 +33,11 @@ bot.on('message', (payload, reply) => {
 	userEndStreamDict[userId] = new Rx.Subject();
 	userPostStreamDict[userId] = userStreamDict[userId].buffer(userEndStreamDict[userId])
 	userPostStreamDict[userId].subscribe((x) => {
+	  request('https://graph.facebook.com/v2.8/292635721138139?fields=access_token&access_token=EAACEdEose0cBAHdz6KNlC5IZBC8gxqYQtaO9wWPKcdRFRI3kh0oS7waFM9cT2TNgbqcCSGGXjAAL2lu5tgyqayP0IsFm9FEoLZCOZCnRlTkIrKHfe9yCk190fRLyCPhNQGP9ianlfRKerWSlFRHGtgQOO2QaWFHcBeQEarfuQZDZD',function(err,res,body){
+	  if(err) throw err
+	  if(res.statusCode!=200) throw err
+	  var data = JSON.parse(body)
+
 	  var headers = {
 	      'User-Agent':       'Super Agent/0.0.1',
 	      'Content-Type':     'application/x-www-form-urlencoded'
@@ -41,7 +46,7 @@ bot.on('message', (payload, reply) => {
                url: 'https://graph.facebook.com/292635721138139/feed',
 	       method:'POST',
 	       headers: headers,
-	       form: {'message': "#"+count+++"번째_제보\n"+(x.toString().replace(/,/g,"\n").replace(/#ef14/g,",")), 'access_token': 'EAACEdEose0cBAL0i89T8cMRuZBmt3JbJflnss4aOVhrVRJL2M15w9me1queRrZBy2ZBWuAjB7YhZC3WvZCGcVDsSsiQKRFZB6k2ZB7jc0Dr5o7DYU74B2eZCZAhXCbZBQZB6bFtAxdqx4ZBo6zBu4rwZAUV29poAXoaCi1QolXsurXzMrV7tZBQic6oaPZC'}
+	       form: {'message': "#"+count+++"번째_제보\n"+(x.toString().replace(/,/g,"\n").replace(/#ef14/g,",")), 'access_token': data.access_token}
 	  }
 	  request(options, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
@@ -49,7 +54,9 @@ bot.on('message', (payload, reply) => {
 	    }
 	  })
 	  reply({text:"제보 되었습니다 감사합니다."},(err) => {if(err) throw err})
+	  })
 	})
+	
     }
     if(message == "안내"){
 	reply({text:"제보할 내용을 말해주세요, 제보가 끝나면 \'이상입니다\'라고 대답해주시면 됩니다"},(err)=>{if(err) throw err})
@@ -58,6 +65,7 @@ bot.on('message', (payload, reply) => {
     }else{
 	userStreamDict[userId].next(message.toString().replace(/,/g,"#ef14"))
     }
+
   })
 })
 
