@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "messenger-bot": "^2.3.0",
-    "rx-node" : "lastest"
+    "rx-node" : "^1.0.2",
+    "rx" : "^4.1.0"
   },
   "repository":{
     "type": "git",
