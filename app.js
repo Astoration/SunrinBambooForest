@@ -4,6 +4,7 @@ const Bot = require('messenger-bot')
 const process = require('process')
 var Rx = require("rxjs/Rx")
 var RxNode = require("rx-node")
+var request = require("request")
 
 var userStreamDict = {}
 var userEndStreamDict = {}
@@ -31,7 +32,7 @@ bot.on('message', (payload, reply) => {
     	userStreamDict[userId] = new Rx.Subject();
 	userEndStreamDict[userId] = new Rx.Subject();
 	userPostStreamDict[userId] = userStreamDict[userId].buffer(userEndStreamDict[userId])
-	userPostStreamDict[userId].subscribe((x) => {reply({text:x.toString()},(err) => { if(err) console.log(err.stack) } )})
+	userPostStreamDict[userId].subscribe((x) => {reply({text:x.toString().replace(",","\n")},(err) => { if(err) console.log(err.stack) } )})
     }
     if(message == "안내"){
 	reply({text:"제보할 내용을 말해주세요, 제보가 끝나면 \'이상입니다\'라고 대답해주시면 됩니다"},(err)=>{if(err) throw err})
