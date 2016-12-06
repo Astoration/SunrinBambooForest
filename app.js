@@ -21,25 +21,24 @@ bot.on('error', (err) => {
 })
 
 bot.on('message', (payload, reply) => {
-  let text = payload.message.text
+  let message = payload.message.text
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
 
-    reply({"처리 끝"},(err)=>{if(err) throw err})
     let userId = payload.sender.id.toString()
     if(!(userId in userStreamDict)){
     	userStreamDict[userId] = new Rx.Subject();
 	userEndStreamDict[userId] = new Rx.Subject();
 	userPostStreamDict[userId] = userEndStreamDict[userId].buffer(userStreamDict[userid])
-	userPostStreamDict[userId].subscribe(x => reply({x},(err) => { if(err) throw err } ))
+	userPostStreamDict[userId].subscribe(x => reply({text:x},(err) => { if(err) throw err } ))
     }
-    if(text == "안내"){
-	reply({"제보할 내용을 말해주세요, 제보가 끝나면 \'이상입니다\'라고 대답해주시면 됩니다"},(err)=>{if(err) throw err})
+    if(message == "안내"){
+	reply({text:"제보할 내용을 말해주세요, 제보가 끝나면 \'이상입니다\'라고 대답해주시면 됩니다"},(err)=>{if(err) throw err})
     }else if(text == "이상입니다"){
     	userEndStreamDict[userId].next('end')
     }else{
-	userStreamDict[userId].next(text)
+	userStreamDict[userId].next(message)
     }
   })
 })
