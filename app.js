@@ -2,6 +2,10 @@
 const http = require('http')
 const Bot = require('messenger-bot')
 const process = require('process')
+var Rx = require("rx")
+var RxNode = require("rx-node")
+
+var userStreamDict = {}
 
 let bot = new Bot({
   token: 'EAALsYZB66QHsBAOwyDN2qeZAWA9nRY8WmJZBGRIZBz1YhtAZAwYYogERApZAxh23hXNvcngtSXSOlsCfiMAZCZAvZAaInRI1GQUTarNTAyy6IyZCpzROTbqyoqUdX35PcVEHm3E0hD3CSRtzCDOanZBEdZBsnZBRdr2FqcEizx9sdNRQDGQZDZD',
