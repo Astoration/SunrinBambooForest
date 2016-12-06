@@ -41,13 +41,14 @@ bot.on('message', (payload, reply) => {
                url: 'https://graph.facebook.com/292635721138139/feed',
 	       method:'POST',
 	       headers: headers,
-	       form: {'message': "#"+count+++"번째 제보"+x.toString().replace(",","\n"), 'access_token': 'EAACEdEose0cBAL0i89T8cMRuZBmt3JbJflnss4aOVhrVRJL2M15w9me1queRrZBy2ZBWuAjB7YhZC3WvZCGcVDsSsiQKRFZB6k2ZB7jc0Dr5o7DYU74B2eZCZAhXCbZBQZB6bFtAxdqx4ZBo6zBu4rwZAUV29poAXoaCi1QolXsurXzMrV7tZBQic6oaPZC'}
+	       form: {'message': "#"+count+++"번째_제보\n"+(x.toString().replace(",","\n")), 'access_token': 'EAACEdEose0cBAL0i89T8cMRuZBmt3JbJflnss4aOVhrVRJL2M15w9me1queRrZBy2ZBWuAjB7YhZC3WvZCGcVDsSsiQKRFZB6k2ZB7jc0Dr5o7DYU74B2eZCZAhXCbZBQZB6bFtAxdqx4ZBo6zBu4rwZAUV29poAXoaCi1QolXsurXzMrV7tZBQic6oaPZC'}
 	  }
 	  request(options, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
 	      console.log(body)
 	    }
 	  })
+	  reply({text:"제보 되었습니다 감사합니다."},(err) => {if(err) throw err})
 	})
     }
     if(message == "안내"){
