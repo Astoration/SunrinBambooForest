@@ -32,7 +32,23 @@ bot.on('message', (payload, reply) => {
     	userStreamDict[userId] = new Rx.Subject();
 	userEndStreamDict[userId] = new Rx.Subject();
 	userPostStreamDict[userId] = userStreamDict[userId].buffer(userEndStreamDict[userId])
-	userPostStreamDict[userId].subscribe((x) => {reply({text:x.toString().replace(",","\n")},(err) => { if(err) console.log(err.stack) } )})
+	userPostStreamDict[userId].subscribe((x) => {
+	  var headers = {
+	      'User-Agent':       'Super Agent/0.0.1',
+	      'Content-Type':     'application/x-www-form-urlencoded'
+	  }
+          var options = {
+               url: 'https://graph.facebook.com/292635721138139/feed',
+	       method:'POST',
+	       headers: headers,
+	       form: {'message': "#"+count+++"번째 제보"+x.toString().replace(",","\n"), 'access_token': 'EAACEdEose0cBAL0i89T8cMRuZBmt3JbJflnss4aOVhrVRJL2M15w9me1queRrZBy2ZBWuAjB7YhZC3WvZCGcVDsSsiQKRFZB6k2ZB7jc0Dr5o7DYU74B2eZCZAhXCbZBQZB6bFtAxdqx4ZBo6zBu4rwZAUV29poAXoaCi1QolXsurXzMrV7tZBQic6oaPZC'}
+	  }
+	  request(options, function (error, response, body) {
+	    if (!error && response.statusCode == 200) {
+	      console.log(body)
+	    }
+	  })
+	})
     }
     if(message == "안내"){
 	reply({text:"제보할 내용을 말해주세요, 제보가 끝나면 \'이상입니다\'라고 대답해주시면 됩니다"},(err)=>{if(err) throw err})
