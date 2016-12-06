@@ -31,14 +31,14 @@ bot.on('message', (payload, reply) => {
     	userStreamDict[userId] = new Rx.Subject();
 	userEndStreamDict[userId] = new Rx.Subject();
 	userPostStreamDict[userId] = userEndStreamDict[userId].buffer(userStreamDict[userId])
-	userPostStreamDict[userId].subscribe((x) => {reply({text:x},(err) => { if(err) console.log(err.message) } )})
+	userPostStreamDict[userId].subscribe((x) => {reply({text:x.toString()},(err) => { if(err) console.log(err.message) } )})
     }
     if(message == "안내"){
 	reply({text:"제보할 내용을 말해주세요, 제보가 끝나면 \'이상입니다\'라고 대답해주시면 됩니다"},(err)=>{if(err) throw err})
     }else if(message == "이상입니다"){
     	userEndStreamDict[userId].next('end')
     }else{
-	userStreamDict[userId].next(message)
+	userStreamDict[userId].next(message.toString())
     }
   })
 })
