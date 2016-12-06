@@ -25,7 +25,7 @@ bot.on('message', (payload, reply) => {
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
-    let userId = payload.sender.id
+    let userId = payload.sender.id.toString()
     if(!(userId in userStreamDict)){
     	userStreamDict[userId] = new Rx.Subject();
 	userEndStreamDict[userId] = new Rx.Subject();
@@ -40,6 +40,7 @@ bot.on('message', (payload, reply) => {
 	userStreamDict[userId].next(text)
     }
 
+	reply({"처리 끝"},(err)=>{if(err) throw err})
   })
 })
 
