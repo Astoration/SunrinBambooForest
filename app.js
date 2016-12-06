@@ -2,7 +2,7 @@
 const http = require('http')
 const Bot = require('messenger-bot')
 const process = require('process')
-var Rx = require("rx")
+var Rx = require("rxjs/Rx")
 var RxNode = require("rx-node")
 
 var userStreamDict = {}
