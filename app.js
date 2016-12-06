@@ -6,6 +6,9 @@ var Rx = require("rx")
 var RxNode = require("rx-node")
 
 var userStreamDict = {}
+var userEndStreamDict = {}
+var userPostStreamDict = {}
+var count = 1;
 
 let bot = new Bot({
   token: 'EAALsYZB66QHsBAOwyDN2qeZAWA9nRY8WmJZBGRIZBz1YhtAZAwYYogERApZAxh23hXNvcngtSXSOlsCfiMAZCZAvZAaInRI1GQUTarNTAyy6IyZCpzROTbqyoqUdX35PcVEHm3E0hD3CSRtzCDOanZBEdZBsnZBRdr2FqcEizx9sdNRQDGQZDZD',
@@ -22,12 +25,21 @@ bot.on('message', (payload, reply) => {
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
+    let userId = payload.sender.id
+    if(userId in userStreamDict){
+    	userStreamDict[userId] = new Rx.Subject();
+	userEndStreamDict[userId] = new Rx.Subject();
+	userPostStreamDict[userId] = userEndStreamDict[userId].buffer(userStreamDict[userid])
+	userPostStreamDict[userId].subscribe(x => reply({x},(err) => { if(err) throw err } ))
+    }
+    if(text == "안내"){
+	reply({"제보할 내용을 말해주세요, 제보가 끝나면 \'이상입니다\'라고 대답해주시면 됩니다"},(err)=>{if(err) throw err})
+    }else if(text == "이상입니다"){
+    	userEndStreamDict[userId].next('end')
+    }else{
+	userStreamDict[userId].next(text)
+    }
 
-    reply({ text }, (err) => {
-      if (err) throw err
-
-      console.log(`${profile.first_name} ${profile.last_name}: ${text}`)
-    })
   })
 })
 
