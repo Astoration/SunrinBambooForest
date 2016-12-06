@@ -10,7 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "messenger-bot": "^2.3.0"
+    "messenger-bot": "^2.3.0",
+    "rx-node" : "lastest"
+  },
+  "repository":{
+    "type": "git",
+    "url": "https://github.com/Astoration/SunrinBambooForest"
   },
   "engines": {
     "node": "6.2.0"
