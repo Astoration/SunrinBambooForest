@@ -26,7 +26,7 @@ bot.on('message', (payload, reply) => {
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
 
-    reply({text:"제보할 내용을 말해주세요, 제보가 끝나면 \'이상입니다\'라고 대답해주시면 됩니다"},(err)=>{if(err) throw err})
+    reply({text:"제보할 내용을 말해주세요, 제보가 끝나면 \'이상입니다\'라고 대답해주시면 됩니다"},(err)=>{if(err) throw err})/*
     let userId = payload.sender.id.toString()
     if(!(userId in userStreamDict)){
     	userStreamDict[userId] = new Rx.Subject();
@@ -40,7 +40,7 @@ bot.on('message', (payload, reply) => {
     	userEndStreamDict[userId].next('end')
     }else{
 	userStreamDict[userId].next(message)
-    }
+    }*/
   })
 })
 
