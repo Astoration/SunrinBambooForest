@@ -26,7 +26,7 @@ bot.on('message', (payload, reply) => {
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
     let userId = payload.sender.id
-    if(userId in userStreamDict){
+    if(!(userId in userStreamDict)){
     	userStreamDict[userId] = new Rx.Subject();
 	userEndStreamDict[userId] = new Rx.Subject();
 	userPostStreamDict[userId] = userEndStreamDict[userId].buffer(userStreamDict[userid])
