@@ -30,7 +30,7 @@ bot.on('message', (payload, reply) => {
     if(!(userId in userStreamDict)){
     	userStreamDict[userId] = new Rx.Subject();
 	userEndStreamDict[userId] = new Rx.Subject();
-	userPostStreamDict[userId] = userEndStreamDict[userId].buffer(userStreamDict[userId])
+	userPostStreamDict[userId] = userStreamDict[userId].buffer(userEndStreamDict[userId])
 	userPostStreamDict[userId].subscribe((x) => {reply({text:x.toString()},(err) => { if(err) console.log(err.stack) } )})
     }
     if(message == "안내"){
